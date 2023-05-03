@@ -14,10 +14,10 @@ public class GUItest2 implements ActionListener {
     public GUItest2() {
         frame = new JFrame();
         panel = new JPanel();
-        title = new JLabel("Multiversal Anime Battle");
-        singlePlayerButton = new JButton("Single Player");
-        twoPlayerButton = new JButton("2 Player");
-        controlsButton = new JButton("Controls");
+        title = new JLabel("Two Player");
+        singlePlayerButton = new JButton("Normal");
+        twoPlayerButton = new JButton("Timed");
+        controlsButton = new JButton("Friendly Match");
         exitButton = new JButton("Exit");
         int frameWidth = 600;
         frame.setSize(frameWidth, 450);
@@ -39,7 +39,7 @@ public class GUItest2 implements ActionListener {
         exitButton.addActionListener(this);
         panel.add(exitButton);
 
-        frame.setVisible(true);
+        frame.setVisible(false);
     }
 
     @Override
