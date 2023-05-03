@@ -95,6 +95,9 @@ public class GUItest implements ActionListener {
                 singlePlayerButton.setText("Single Player");
                 controlsButton.setText("Controls");
             }
+            if(text.equals("")){
+
+            }
         }
 
     }
