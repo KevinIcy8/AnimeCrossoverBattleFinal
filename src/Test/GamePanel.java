@@ -1,12 +1,14 @@
 package Test;
 
+import Entity.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
     final int origTileSize = 64;
     final int scale = 1;
-    final int tileSize = origTileSize * scale;
+    public final int tileSize = origTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRow = 12;
     final int screenWidth = tileSize * maxScreenCol;
@@ -16,10 +18,13 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     KeyHandling keyH = new KeyHandling();
     Thread gameThread;
+    Player player = new Player(this, keyH);
 
     //player's default position setting
-    int playerX = 100;
-    int playerY = 100;
+    int player1X = 100;
+    int player1Y = 100;
+    int player2X = 200;
+    int player2Y = 200;
     int playerSpeed = 4;
 
     public GamePanel(){
@@ -35,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread.start();
     }
     @Override
-    public void run() {
+    /*public void run() {
 
         double drawInterval = (double)1000000000/FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
@@ -59,28 +64,63 @@ public class GamePanel extends JPanel implements Runnable{
                 throw new RuntimeException(e);
             }
         }
+    }*/
+    public void run(){
+        double drawInterval = (double)1000000000/FPS;
+        double delta = 0;
+        long lastTime = System.nanoTime();
+        long currentTime;
+
+        while(gameThread != null){
+            currentTime = System.nanoTime();
+            delta += (currentTime - lastTime) / drawInterval;
+            lastTime = currentTime;
+
+            if(delta >= 1){
+                update();
+                repaint();
+                delta--;
+            }
+        }
     }
 
     public void update(){
-        if(keyH.upPressed == true){
-            playerY -= playerSpeed;
-            System.out.println("up");
+        /*if(keyH.upPressed){
+            player1Y -= playerSpeed;
         }
-        else if(keyH.downPressed == true){
-            playerY += playerSpeed;
+        else if(keyH.downPressed){
+            player1Y += playerSpeed;
         }
-        else if(keyH.leftPressed == true){
-            playerX -= playerSpeed;
+        else if(keyH.leftPressed){
+            player1X -= playerSpeed;
         }
-        else if(keyH.rightPressed == true){
-            playerX += playerSpeed;
+        else if(keyH.rightPressed){
+            player1X += playerSpeed;
         }
+        if(keyH.upPressed2){
+            player2Y -= playerSpeed;
+        }
+        else if(keyH.downPressed2){
+            player2Y += playerSpeed;
+        }
+        else if(keyH.leftPressed2){
+            player2X -= playerSpeed;
+        }
+        else if(keyH.rightPressed2){
+            player2X += playerSpeed;
+        }*/
+        player.update();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.BLACK);
-        g2.fillRect(playerX,playerY, tileSize, tileSize);
-        g2.dispose();
+        Graphics2D p1 = (Graphics2D) g;
+        /*p1.setColor(Color.BLACK);
+        p1.fillRect(player1X,player1Y, tileSize, tileSize);*/
+        Graphics2D p2 = (Graphics2D) g;
+        /*p2.setColor(Color.BLUE);
+        p2.fillRect(player2X,player2Y,tileSize,tileSize);*/
+        player.draw(p1);
+        p1.dispose();
+        p2.dispose();
     }
 }
