@@ -4,28 +4,34 @@ import Test.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public class TileManager {
     GamePanel gp;
-    Tile[] tile;
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public TileManager(GamePanel gp){
         this.gp = gp;
         tile = new Tile[10];
+        mapTileNum = new int [gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
-
+        loadMap();
     }
     public void getTileImage(){
         try{
-            File file = new File("res/tiles/castle_brick.png");
+
+            File file = new File("res/tiles/sky.png.png");
             FileInputStream fis = new FileInputStream(file);
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(fis);
-            tile[0].collision = true;
+
+            File file2 = new File("res/tiles/castle_brick.png");
+            FileInputStream fis2 = new FileInputStream(file2);
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(fis2);
+            tile[1].collision = true;
             /*tile[0] = new Tile();
             tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("tiles/castle_brick.png")));
         */
@@ -34,17 +40,40 @@ public class TileManager {
             e.printStackTrace();
         }
     }
+    public void loadMap(){
+        try{
+            InputStream is = getClass().getResourceAsStream("maps/testMap.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            int col = 0;
+            int row = 0;
+            while(col < gp.maxScreenCol && row < gp.maxScreenRow){
+                String line = br.readLine();
+                while(col < gp.maxScreenCol){
+                    String[] numbers = line.split(" ");
+                    int num = Integer.parseInt(numbers[col]);
+                    mapTileNum[col][row] = num;
+                    col++;
+                }
+                if(col == gp.maxScreenCol){
+                    col = 0;
+                    row++;
+                }
+            }
+            br.close();
+        }catch(Exception e){
+
+        }
+    }
     public void draw(Graphics2D g2){
         int col = 0;
         int row = 0;
         int x = 0;
         int y = 0;
-        g2.drawImage(tile[0].image, 0, 600, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[0].image, 128, 600, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[0].image, 256, 600, gp.tileSize, gp.tileSize, null);
-        g2.drawImage(tile[0].image, 384, 600, gp.tileSize, gp.tileSize, null);
-       /* while(col < gp.maxScreenCol && row < gp.maxScreenRow){
-            g2.drawImage(tile[0].image, x, y, gp.tileSize, gp.tileSize, null);
+
+        while(col < gp.maxScreenCol && row < gp.maxScreenRow){
+            int tileNum = mapTileNum[col][row];
+            System.out.println(tileNum);
+            g2.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
             col++;
             x += gp.tileSize;
 
@@ -54,7 +83,7 @@ public class TileManager {
                 row++;
                 y += gp.tileSize;
             }
-        }*/
+        }
 
     }
 }

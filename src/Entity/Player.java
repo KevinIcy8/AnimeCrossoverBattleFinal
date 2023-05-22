@@ -49,21 +49,38 @@ public class Player extends Entity{
                 spriteNum = 1;
             }
             if(keyH.upPressed){
-                y -= speed;
+                direction = "up";
+
             }
             else if(keyH.downPressed){
-                y += speed;
+                direction = "down";
+
             }
             else if(keyH.leftPressed){
                 direction = "left";
-                x -= speed;
             }
             else if(keyH.rightPressed){
                 direction = "right";
-                x += speed;
             }
             collisionOn = false;
             gp.cChecker.checkTile(this);
+            if(collisionOn == false){
+                switch(direction){
+                    case "up":
+                        y -= speed;
+                    break;
+                    case "down":
+                        y += speed;
+                        break;
+                    case "left":
+                        x -= speed;
+                        break;
+                    case "right":
+                        x += speed;
+                        break;
+                }
+            }
+
             spriteCounter++;
             if(spriteCounter > 10){
                 if(spriteNum == 1){
