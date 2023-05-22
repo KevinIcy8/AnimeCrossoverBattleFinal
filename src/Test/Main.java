@@ -17,7 +17,6 @@ public class Main {
         test.setVisible(true);
 
         gamePanel.startGameThread();
-        System.out.println("finish");
 
     }
 }

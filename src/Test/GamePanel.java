@@ -1,31 +1,28 @@
 package Test;
 
 import Entity.Player;
+import tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable{
-    final int origTileSize = 64;
-    final int scale = 1;
+    final int origTileSize = 32;
+    final int scale = 4;
     public final int tileSize = origTileSize * scale;
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int maxScreenCol = 8;
+    public final int maxScreenRow = 6;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
 
     //FPS
     int FPS = 60;
+    TileManager tileM = new TileManager(this);
     KeyHandling keyH = new KeyHandling();
     Thread gameThread;
+    public CollisionChecker cChecker = new CollisionChecker(this);
     Player player = new Player(this, keyH);
 
-    //player's default position setting
-    int player1X = 100;
-    int player1Y = 100;
-    int player2X = 200;
-    int player2Y = 200;
-    int playerSpeed = 4;
 
     public GamePanel(){
         this.setPreferredSize(new Dimension(screenWidth,screenHeight));
@@ -113,14 +110,15 @@ public class GamePanel extends JPanel implements Runnable{
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        Graphics2D p1 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g;
         /*p1.setColor(Color.BLACK);
         p1.fillRect(player1X,player1Y, tileSize, tileSize);*/
         Graphics2D p2 = (Graphics2D) g;
         /*p2.setColor(Color.BLUE);
         p2.fillRect(player2X,player2Y,tileSize,tileSize);*/
-        player.draw(p1);
-        p1.dispose();
+        tileM.draw(g2);
+        player.draw(g2);
+        g2.dispose();
         p2.dispose();
     }
 }
