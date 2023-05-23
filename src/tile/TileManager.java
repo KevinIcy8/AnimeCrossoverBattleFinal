@@ -10,14 +10,14 @@ import java.util.Objects;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int mapTileNum[][];
+    public int[][] mapTileNum;
 
     public TileManager(GamePanel gp){
         this.gp = gp;
         tile = new Tile[10];
         mapTileNum = new int [gp.maxScreenCol][gp.maxScreenRow];
         getTileImage();
-        loadMap();
+        loadMap("/maps/testMap.txt");
     }
     public void getTileImage(){
         try{
@@ -27,22 +27,24 @@ public class TileManager {
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(fis);
 
-            File file2 = new File("res/tiles/castle_brick.png");
-            FileInputStream fis2 = new FileInputStream(file2);
+            file = new File("res/tiles/castle_brick.png");
+            fis = new FileInputStream(file);
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(fis2);
+            tile[1].image = ImageIO.read(fis);
             tile[1].collision = true;
             /*tile[0] = new Tile();
-            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("tiles/castle_brick.png")));
-        */
+            tile[0].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("res/tiles/sky.png.png")));
+
+            tile[1] = new Tile();
+            tile[1].image = ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("res/tiles/castle_brick.png")));*/
         }catch(IOException e){
 
             e.printStackTrace();
         }
     }
-    public void loadMap(){
+    public void loadMap(String filePath){
         try{
-            InputStream is = getClass().getResourceAsStream("maps/testMap.txt");
+            InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
             int col = 0;
             int row = 0;
@@ -72,7 +74,6 @@ public class TileManager {
 
         while(col < gp.maxScreenCol && row < gp.maxScreenRow){
             int tileNum = mapTileNum[col][row];
-            System.out.println(tileNum);
             g2.drawImage(tile[tileNum].image, x, y, gp.tileSize, gp.tileSize, null);
             col++;
             x += gp.tileSize;

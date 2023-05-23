@@ -27,6 +27,7 @@ public class Player extends Entity{
         x = 100;
         y = 100;
         speed = 10;
+        jumpHeight = 50; //test
         direction = "right";
     }
     public void getPLayerImage(){
@@ -64,20 +65,16 @@ public class Player extends Entity{
             }
             collisionOn = false;
             gp.cChecker.checkTile(this);
-            if(collisionOn == false){
-                switch(direction){
-                    case "up":
-                        y -= speed;
-                    break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
+            if(collisionOn){
+
+            }
+            if(!collisionOn){
+                y += speed;
+                switch (direction) {
+                    case "up" -> y -= speed;
+                    case "down" -> y += speed;
+                    case "left" -> x -= speed;
+                    case "right" -> x += speed;
                 }
             }
 
@@ -115,6 +112,28 @@ public class Player extends Entity{
         g2.fillRect(x,y, gp.tileSize, gp.tileSize);*/
         BufferedImage image = null;
         switch (direction){
+            case "up":
+                if(spriteNum == 1){
+                    image = left1;
+                }
+                if(spriteNum == 2){
+                    image = left2;
+                }
+                if(spriteNum == 3){
+                    image = left3; //left3 = stationary
+                }
+                break;
+            case "down":
+                if(spriteNum == 1){
+                    image = right1;
+                }
+                if(spriteNum == 2){
+                    image = right2;
+                }
+                if(spriteNum == 3){
+                    image = right3; //right3 = stationary
+                }
+                break;
             case "left":
                 if(spriteNum == 1){
                     image = left1;
