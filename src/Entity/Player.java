@@ -13,6 +13,11 @@ import java.util.Objects;
 public class Player extends Entity{
     GamePanel gp;
     KeyHandling keyH;
+    private int jumpHeight; //test
+    private boolean falling = true;
+    private boolean jumping = false;
+    private float gravity = 0.0f;
+    private final float MAX_SPEED = 10;
 
     public Player(GamePanel gp, KeyHandling keyH){
         this.gp = gp;
@@ -45,17 +50,24 @@ public class Player extends Entity{
         }
     }
     public void update(){
+        if((jumping || falling) && !collisionOn){
+            System.out.println("falling");
+            gravity += 0.75;
+            y += gravity;
+            /*if(speed > MAX_SPEED){
+                speed = (int) MAX_SPEED;
+            }*/
+
+        }
         if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if(spriteNum == 3){
                 spriteNum = 1;
             }
             if(keyH.upPressed){
                 direction = "up";
-
             }
             else if(keyH.downPressed){
                 direction = "down";
-
             }
             else if(keyH.leftPressed){
                 direction = "left";
@@ -65,13 +77,17 @@ public class Player extends Entity{
             }
             collisionOn = false;
             gp.cChecker.checkTile(this);
-            if(collisionOn){
 
+            if(collisionOn){
+                switch(direction){
+                    case "up":
+                        //y -= jumpHeight;
+                }
             }
             if(!collisionOn){
-                y += speed;
+
                 switch (direction) {
-                    case "up" -> y -= speed;
+                    //case "up" -> y -= speed;
                     case "down" -> y += speed;
                     case "left" -> x -= speed;
                     case "right" -> x += speed;
@@ -92,7 +108,6 @@ public class Player extends Entity{
         else{
             spriteNum = 3;
         }
-
 
         /*if(keyH.upPressed2){
             player2Y -= playerSpeed;
@@ -157,6 +172,6 @@ public class Player extends Entity{
                 }
                 break;
         }
-        g2.drawImage(image, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(image, (int)x, (int)y, gp.tileSize, gp.tileSize, null);
     }
 }
