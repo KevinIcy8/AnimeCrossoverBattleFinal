@@ -7,6 +7,7 @@ public class KeyHandling implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean upPressed2, downPressed2, leftPressed2, rightPressed2;
     public boolean spacePressed;
+    public int jumpCounter;
     @Override
     public void keyTyped(KeyEvent e) {
 
@@ -17,6 +18,7 @@ public class KeyHandling implements KeyListener {
         int code = e.getKeyCode();
         if(code == KeyEvent.VK_W){
             upPressed = true;
+            jumpCounter++;
         }
         if(code == KeyEvent.VK_S){
             downPressed = true;
@@ -49,6 +51,7 @@ public class KeyHandling implements KeyListener {
         int code = e.getKeyCode();
         if(code == KeyEvent.VK_W){
             upPressed = false;
+            jumpCounter = 0;
         }
         if(code == KeyEvent.VK_S){
             downPressed = false;

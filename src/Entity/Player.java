@@ -23,7 +23,7 @@ public class Player extends Entity{
     public Player(GamePanel gp, KeyHandling keyH){
         this.gp = gp;
         this.keyH = keyH;
-        solidArea = new Rectangle(21,42,86,86);
+        solidArea = new Rectangle(24,32,80,96);
         setDefaultValues();
         getPLayerImage();
 
@@ -51,21 +51,25 @@ public class Player extends Entity{
         }
     }
     public void update(){
-        collisionOn = false;
+        groundCollisionOn = false;
+        leftCollisionOn = false;
+        rightCollisionOn = false;
         gp.cChecker.checkTile(this);
 
         //System.out.println(direction);
-        direction = "falling";
+        if(!groundCollisionOn) {
+            direction = "falling";
+        }
         //if(jumping || falling){ //gravity
             gravity += 0.75;
             y += gravity;
-            if(collisionOn){
+            if(groundCollisionOn){
                 y = y + (0 - gravity);
                 gravity = 0;
             }
-           /* y += 1;
+            y += 1;
 
-            y -= 1;*/
+            y -= 1;
             //}
 
         if(keyH.spacePressed){ //reset
@@ -77,7 +81,8 @@ public class Player extends Entity{
             if(spriteNum == 3){
                 spriteNum = 1;
             }
-            if(keyH.upPressed){
+
+            if(keyH.upPressed){//&& keyH.jumpCounter <= 1){
                 direction = "up";
             }
             if(keyH.downPressed){
@@ -90,15 +95,23 @@ public class Player extends Entity{
                 direction = "right";
             }
 
-            if(collisionOn){
+            if(groundCollisionOn){
                 if ("up".equals(direction)) {
                     gravity = jumpHeight * (-1);
                 }
+                if(leftCollisionOn){
+                    if ("left".equals(direction)) {
+                        x -= speed;
+                    }
+                }
+                if(rightCollisionOn){
+                    if ("right".equals(direction)) {
+                        x += speed;
+                    }
+                }
             }
 
-
-            if(!collisionOn){
-
+            if(!groundCollisionOn && !leftCollisionOn && !rightCollisionOn){
                 switch (direction) {
                     //case "up" -> gravity = jumpHeight * (-1);
                     //case "down" -> y += speed;
