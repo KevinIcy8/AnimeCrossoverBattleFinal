@@ -15,6 +15,7 @@ public class Player extends Entity{
     KeyHandling keyH;
     private int jumpHeight; //test
     private boolean falling = true;
+
     private boolean jumping = false;
     private float gravity = 0.0f;
     private final float MAX_SPEED = 10;
@@ -32,8 +33,8 @@ public class Player extends Entity{
         x = 100;
         y = 100;
         speed = 10;
-        jumpHeight = 50; //test
-        direction = "right";
+        jumpHeight = 20; //test
+        direction = "falling";
     }
     public void getPLayerImage(){
         try{
@@ -50,14 +51,27 @@ public class Player extends Entity{
         }
     }
     public void update(){
-        if((jumping || falling) && !collisionOn){
-            System.out.println("falling");
+        collisionOn = false;
+        gp.cChecker.checkTile(this);
+
+        //System.out.println(direction);
+        direction = "falling";
+        //if(jumping || falling){ //gravity
             gravity += 0.75;
             y += gravity;
-            /*if(speed > MAX_SPEED){
-                speed = (int) MAX_SPEED;
-            }*/
+            if(collisionOn){
+                y = y + (0 - gravity);
+                gravity = 0;
+            }
+           /* y += 1;
 
+            y -= 1;*/
+            //}
+
+        if(keyH.spacePressed){ //reset
+            x = 500;
+            y = 100;
+            gravity = 0;
         }
         if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if(spriteNum == 3){
@@ -66,29 +80,28 @@ public class Player extends Entity{
             if(keyH.upPressed){
                 direction = "up";
             }
-            else if(keyH.downPressed){
+            if(keyH.downPressed){
                 direction = "down";
             }
-            else if(keyH.leftPressed){
+            if(keyH.leftPressed){
                 direction = "left";
             }
-            else if(keyH.rightPressed){
+            if(keyH.rightPressed){
                 direction = "right";
             }
-            collisionOn = false;
-            gp.cChecker.checkTile(this);
 
             if(collisionOn){
-                switch(direction){
-                    case "up":
-                        //y -= jumpHeight;
+                if ("up".equals(direction)) {
+                    gravity = jumpHeight * (-1);
                 }
             }
+
+
             if(!collisionOn){
 
                 switch (direction) {
-                    //case "up" -> y -= speed;
-                    case "down" -> y += speed;
+                    //case "up" -> gravity = jumpHeight * (-1);
+                    //case "down" -> y += speed;
                     case "left" -> x -= speed;
                     case "right" -> x += speed;
                 }
@@ -128,6 +141,7 @@ public class Player extends Entity{
         BufferedImage image = null;
         switch (direction){
             case "up":
+            case"falling":
                 if(spriteNum == 1){
                     image = left1;
                 }
