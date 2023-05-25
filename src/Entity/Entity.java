@@ -8,6 +8,7 @@ public class Entity {
     public int speed;
 
     public BufferedImage up1, up2, down1, down2, left1, left2, left3, right1, right2, right3;
+    public BufferedImage basicLeft1, basicLeft2, basicLeft3, basicRight1, basicRight2, basicRight3;
     public String direction;
     //public boolean falling;
     public int spriteCounter = 0;
@@ -16,6 +17,7 @@ public class Entity {
     public boolean groundCollisionOn = false;
     public boolean leftCollisionOn = false;
     public boolean rightCollisionOn = false;
+    boolean attacking = false;
 
 
 

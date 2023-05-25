@@ -19,6 +19,8 @@ public class Player extends Entity{
     private boolean jumping = false;
     private float gravity = 0.0f;
     private final float MAX_SPEED = 10;
+    private boolean wasFacingLeft;
+    private boolean wasFacingRight;
 
     public Player(GamePanel gp, KeyHandling keyH){
         this.gp = gp;
@@ -26,6 +28,7 @@ public class Player extends Entity{
         solidArea = new Rectangle(24,32,80,96);
         setDefaultValues();
         getPLayerImage();
+        getPlayerAttackImage();
 
     }
 
@@ -35,6 +38,7 @@ public class Player extends Entity{
         speed = 10;
         jumpHeight = 25; //test
         direction = "right";
+        wasFacingRight = true;
     }
     public void getPLayerImage(){
         try{
@@ -50,7 +54,27 @@ public class Player extends Entity{
             e.printStackTrace();
         }
     }
+    public void getPlayerAttackImage(){
+        try{
+            basicLeft1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft1.png")));
+            basicLeft2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft2.png")));
+            basicLeft3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft3.png")));
+            basicRight1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright1.png")));
+            basicRight2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright2.png")));
+            basicRight3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright3.png")));
+        }catch(IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    //SAVE FOR A LATER DATE
+//    public BufferedImage setUp(String imagePath){
+//        UtilityTool uTool = new UtilityTool;
+//
+//    }
     public void update(){
+        System.out.println(keyH.attacking);
         groundCollisionOn = false;
         leftCollisionOn = false;
         rightCollisionOn = false;
@@ -81,7 +105,25 @@ public class Player extends Entity{
             y = 511.9;
             gravity = 0;
         }
-        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+        if(keyH.jPressed){
+            attacking = true;
+            spriteCounter ++;
+            if(spriteCounter <= 5){
+                spriteNum = 1;
+            }
+            if(spriteNum > 5 && spriteCounter <= 10){
+                spriteNum = 2;
+            }
+            if(spriteNum > 10 && spriteCounter <= 25){
+                spriteNum = 3;
+            }
+            if(spriteNum > 25){
+                spriteNum = 1;
+                spriteCounter = 0;
+                attacking = false;
+            }
+        }
+        else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if(spriteNum == 3){
                 spriteNum = 1;
             }
@@ -94,9 +136,13 @@ public class Player extends Entity{
             }*/
             if(keyH.leftPressed){
                 direction = "left";
+                wasFacingRight = false;
+                wasFacingLeft = true;
             }
             if(keyH.rightPressed){
                 direction = "right";
+                wasFacingLeft = false;
+                wasFacingRight = true;
             }
 
             if(groundCollisionOn){
@@ -159,47 +205,75 @@ public class Player extends Entity{
         switch (direction){
             case "up":
             case "falling":
-                if(spriteNum == 1){
-                    image = left1;
-                }
-                if(spriteNum == 2){
-                    image = left2;
-                }
-                if(spriteNum == 3){
-                    image = left3; //left3 = stationary
-                }
+                if(wasFacingRight){image = right3;}
+                if(wasFacingLeft){image = left3;}
+//                if(spriteNum == 1){
+//                    image = left1;
+//                }
+//                if(spriteNum == 2){
+//                    image = left2;
+//                }
+//                if(spriteNum == 3){
+//                    image = left3; //left3 = stationary
+//                }
                 break;
-            case "down":
-                if(spriteNum == 1){
-                    image = right1;
-                }
-                if(spriteNum == 2){
-                    image = right2;
-                }
-                if(spriteNum == 3){
-                    image = right3; //right3 = stationary
-                }
-                break;
+//            case "down":
+//                if(spriteNum == 1){
+//                    image = right1;
+//                }
+//                if(spriteNum == 2){
+//                    image = right2;
+//                }
+//                if(spriteNum == 3){
+//                    image = right3; //right3 = stationary
+//                }
+//                break;
             case "left":
-                if(spriteNum == 1){
-                    image = left1;
+                if(!keyH.attacking) {
+                    if (spriteNum == 1) {
+                        image = left1;
+                    }
+                    if (spriteNum == 2) {
+                        image = left2;
+                    }
+                    if (spriteNum == 3) {
+                        image = left3;
+                    } //left3 = stationary
                 }
-                if(spriteNum == 2){
-                    image = left2;
-                }
-                if(spriteNum == 3){
-                    image = left3; //left3 = stationary
+                if(keyH.attacking){
+                    if (spriteNum == 1) {
+                        image = basicLeft1;
+                    }
+                    if (spriteNum == 2) {
+                        image = basicLeft2;
+                    }
+                    if (spriteNum == 3) {
+                        image = basicLeft3;
+                    }
                 }
                 break;
             case "right":
-                if(spriteNum == 1){
-                    image = right1;
+                if(!keyH.attacking) {
+                    if (spriteNum == 1) {
+                        image = right1;
+                    }
+                    if (spriteNum == 2) {
+                        image = right2;
+                    }
+                    if (spriteNum == 3) {
+                        image = right3;
+                    } //right3 = stationary
                 }
-                if(spriteNum == 2){
-                    image = right2;
-                }
-                if(spriteNum == 3){
-                    image = right3; //right3 = stationary
+                if(keyH.attacking){
+                    if (spriteNum == 1) {
+                        image = basicRight1;
+                    }
+                    if (spriteNum == 2) {
+                        image = basicRight2;
+                    }
+                    if (spriteNum == 3) {
+                        image = basicRight3;
+                    }
                 }
                 break;
         }

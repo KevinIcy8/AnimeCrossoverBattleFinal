@@ -6,6 +6,9 @@ import java.awt.event.KeyListener;
 public class KeyHandling implements KeyListener {
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean upPressed2, downPressed2, leftPressed2, rightPressed2;
+    //Attack Keys
+    public boolean jPressed;
+    public boolean attacking;
     public boolean spacePressed;
     public int jumpCounter;
     @Override
@@ -44,6 +47,10 @@ public class KeyHandling implements KeyListener {
         if(code == KeyEvent.VK_SPACE){
             spacePressed = true;
         }
+        if(code == KeyEvent.VK_J){
+            jPressed = true;
+            attacking = true;
+        }
     }
 
     @Override
@@ -76,6 +83,10 @@ public class KeyHandling implements KeyListener {
         }
         if(code == KeyEvent.VK_SPACE){
             spacePressed = false;
+        }
+        if(code == KeyEvent.VK_J){
+            jPressed = false;
+            attacking = false;
         }
     }
 }

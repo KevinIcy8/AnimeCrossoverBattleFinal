@@ -18,6 +18,8 @@ public class PlayerTwo extends Entity{
     private boolean jumping = false;
     private float gravity = 0.0f;
     private final float MAX_SPEED = 10;
+    private boolean wasFacingLeft;
+    private boolean wasFacingRight;
 
     public PlayerTwo(GamePanel gp, KeyHandling keyH){
         this.gp = gp;
@@ -33,6 +35,7 @@ public class PlayerTwo extends Entity{
         speed = 10;
         jumpHeight = 25; //test
         direction = "left";
+        wasFacingLeft = true;
     }
     public void getPLayerImage(){
         try{
@@ -92,9 +95,14 @@ public class PlayerTwo extends Entity{
             }*/
             if(keyH.leftPressed2){
                 direction = "left";
+                wasFacingRight = false;
+                wasFacingLeft = true;
             }
             if(keyH.rightPressed2){
                 direction = "right";
+                wasFacingLeft = false;
+                wasFacingRight = true;
+
             }
 
             if(groundCollisionOn){
@@ -157,15 +165,21 @@ public class PlayerTwo extends Entity{
         switch (direction){
             case "up":
             case "falling":
-                if(spriteNum == 1){
-                    image = left1;
+                if(wasFacingRight){
+                    image = right3;
                 }
-                if(spriteNum == 2){
-                    image = left2;
+                if(wasFacingLeft){
+                    image = left3;
                 }
-                if(spriteNum == 3){
-                    image = left3; //left3 = stationary
-                }
+//                if(spriteNum == 1){
+//                    image = left1;
+//                }
+//                if(spriteNum == 2){
+//                    image = left2;
+//                }
+//                if(spriteNum == 3){
+//                    image = left3; //left3 = stationary
+//                }
                 break;
             case "down":
                 if(spriteNum == 1){
