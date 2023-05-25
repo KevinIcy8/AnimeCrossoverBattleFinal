@@ -1,6 +1,7 @@
 package Test;
 
 import Entity.Player;
+import Entity.PlayerTwo;
 import tile.TileManager;
 
 import javax.swing.*;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     Player player = new Player(this, keyH);
+    PlayerTwo playerTwo = new PlayerTwo(this, keyH);
 
 
     public GamePanel(){
@@ -107,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable{
             player2X += playerSpeed;
         }*/
         player.update();
+        playerTwo.update();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
@@ -118,6 +121,7 @@ public class GamePanel extends JPanel implements Runnable{
         p2.fillRect(player2X,player2Y,tileSize,tileSize);*/
         tileM.draw(g2);
         player.draw(g2);
+        playerTwo.draw(g2);
         g2.dispose();
         p2.dispose();
     }

@@ -7,10 +7,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Objects;
 
-public class Player extends Entity{
+public class PlayerTwo extends Entity{
     GamePanel gp;
     KeyHandling keyH;
     private int jumpHeight; //test
@@ -20,31 +19,30 @@ public class Player extends Entity{
     private float gravity = 0.0f;
     private final float MAX_SPEED = 10;
 
-    public Player(GamePanel gp, KeyHandling keyH){
+    public PlayerTwo(GamePanel gp, KeyHandling keyH){
         this.gp = gp;
         this.keyH = keyH;
         solidArea = new Rectangle(24,32,80,96);
         setDefaultValues();
         getPLayerImage();
-
     }
 
     public void setDefaultValues(){
-        x = 100;
+        x = 1000;
         y = 100;
         speed = 10;
         jumpHeight = 25; //test
-        direction = "right";
+        direction = "left";
     }
     public void getPLayerImage(){
         try{
 
-        left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left1.png.png")));
-        left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left2.png.png")));
-        left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left3.png")));
-        right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right1.png.png")));
-        right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right2.png.png")));
-        right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right3.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left1.png.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left2.png.png")));
+            left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left3.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right1.png.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right2.png.png")));
+            right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right3.png")));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -61,41 +59,41 @@ public class Player extends Entity{
             direction = "falling";
         }
         //if(jumping || falling){ //gravity
-            gravity += 1;
-            y += gravity;
-            if(groundCollisionOn){
-                //System.out.println(gravity);
-                //System.out.println(y);
-                y = 511.999999;
-                //y = (y + (0 - gravity));
-                //System.out.println(y);
-                gravity = 0;
-            }
-            y += 1;
+        gravity += 1;
+        y += gravity;
+        if(groundCollisionOn){
+            //System.out.println(gravity);
+            //System.out.println(y);
+            y = 511.999999;
+            //y = (y + (0 - gravity));
+            //System.out.println(y);
+            gravity = 0;
+        }
+        y += 1;
 
-            y -= 1;
-            //}
+        y -= 1;
+        //}
 
         if(keyH.spacePressed){ //reset
             x = 500;
             y = 511.9;
             gravity = 0;
         }
-        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+        if(keyH.upPressed2 || keyH.downPressed2 || keyH.leftPressed2 || keyH.rightPressed2){
             if(spriteNum == 3){
                 spriteNum = 1;
             }
 
-            if(keyH.upPressed){//&& keyH.jumpCounter <= 1){
+            if(keyH.upPressed2){//&& keyH.jumpCounter <= 1){
                 direction = "up";
             }
-            /*if(keyH.downPressed){
+            /*if(keyH.downPressed2){
                 direction = "down";
             }*/
-            if(keyH.leftPressed){
+            if(keyH.leftPressed2){
                 direction = "left";
             }
-            if(keyH.rightPressed){
+            if(keyH.rightPressed2){
                 direction = "right";
             }
 
@@ -206,3 +204,4 @@ public class Player extends Entity{
         g2.drawImage(image, (int)x, (int)y, gp.tileSize, gp.tileSize, null);
     }
 }
+
