@@ -240,7 +240,7 @@ public class Player extends Entity{
                         image = left3;
                     } //left3 = stationary
                 }
-                if(keyH.attacking){
+                if(keyH.attacking && wasFacingLeft){
                     if (spriteNum == 1) {
                         image = basicLeft1;
                     }
