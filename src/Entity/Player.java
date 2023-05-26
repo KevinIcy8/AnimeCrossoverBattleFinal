@@ -74,7 +74,7 @@ public class Player extends Entity{
 //
 //    }
     public void update(){
-        System.out.println(keyH.attacking);
+        //System.out.println(keyH.attacking);
         groundCollisionOn = false;
         leftCollisionOn = false;
         rightCollisionOn = false;

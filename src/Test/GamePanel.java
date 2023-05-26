@@ -19,11 +19,19 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS
     int FPS = 60;
     TileManager tileM = new TileManager(this);
-    KeyHandling keyH = new KeyHandling();
+    KeyHandling keyH = new KeyHandling(this);
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     Player player = new Player(this, keyH);
     PlayerTwo playerTwo = new PlayerTwo(this, keyH);
+    UI ui = new UI(this);
+
+    public int gameState;
+    public final int titleState = 0;
+    public final int singlePlayState = 1;
+    public final int twoPlayState = 2;
+    public final int controlState = 3;
+
 
 
     public GamePanel(){
@@ -32,6 +40,9 @@ public class GamePanel extends JPanel implements Runnable{
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
+    }
+    public void setUpGame(){
+        gameState = titleState;
     }
 
     public void startGameThread(){
@@ -84,45 +95,26 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        /*if(keyH.upPressed){
-            player1Y -= playerSpeed;
-        }
-        else if(keyH.downPressed){
-            player1Y += playerSpeed;
-        }
-        else if(keyH.leftPressed){
-            player1X -= playerSpeed;
-        }
-        else if(keyH.rightPressed){
-            player1X += playerSpeed;
-        }
-        if(keyH.upPressed2){
-            player2Y -= playerSpeed;
-        }
-        else if(keyH.downPressed2){
-            player2Y += playerSpeed;
-        }
-        else if(keyH.leftPressed2){
-            player2X -= playerSpeed;
-        }
-        else if(keyH.rightPressed2){
-            player2X += playerSpeed;
-        }*/
         player.update();
         playerTwo.update();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        /*p1.setColor(Color.BLACK);
-        p1.fillRect(player1X,player1Y, tileSize, tileSize);*/
-        Graphics2D p2 = (Graphics2D) g;
-        /*p2.setColor(Color.BLUE);
-        p2.fillRect(player2X,player2Y,tileSize,tileSize);*/
-        tileM.draw(g2);
-        player.draw(g2);
-        playerTwo.draw(g2);
+        if(gameState == titleState){
+            ui.draw(g2);
+        }
+        else if(gameState == singlePlayState){
+
+        }
+        else if(gameState == twoPlayState){
+            tileM.draw(g2);
+            player.draw(g2);
+            playerTwo.draw(g2);
+        }
+        else if(gameState == controlState){
+            ui.draw(g2);
+        }
         g2.dispose();
-        p2.dispose();
     }
 }
