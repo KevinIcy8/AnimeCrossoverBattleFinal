@@ -86,7 +86,7 @@ public class UI {
     }
 
     public void drawControlScreen(){
-
+        //g2.drawRenderableImage();
     }
     public int getXForCenteredText(String text){
         int length = (int)g2.getFontMetrics().getStringBounds(text,g2).getWidth();
