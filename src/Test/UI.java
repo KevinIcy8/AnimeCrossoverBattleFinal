@@ -136,6 +136,7 @@ public class UI {
     }
 
     public void drawCharSelectionScreen(){
+        int spacing = 5;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
         String text = "Two Player";
         int x = getXForCenteredText(text);
@@ -146,13 +147,17 @@ public class UI {
 
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,48F));
         g2.setColor(Color.RED);
-        g2.fillRect(10,150,gp.tileSize + 50,gp.tileSize*2);
+        g2.fillRect(10,150,gp.tileSize + 50,gp.tileSize*2); //rectangle for where the character is display p1
         text = "P1";
         g2.drawString(text,10, 140);
+        g2.fillRect(300-spacing,150-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 1 currently hovering over
+
         g2.setColor(Color.BLUE);
-        g2.fillRect(gp.screenWidth-10-(gp.tileSize+50),150,gp.tileSize + 50,gp.tileSize*2);
+        g2.fillRect(gp.screenWidth-10-(gp.tileSize+50),150,gp.tileSize + 50,gp.tileSize*2);//rectangle for where the character is display p2
         text = "P2";
         g2.drawString(text,gp.screenWidth-10-(gp.tileSize+50), 140);
+        g2.fillRect(490-spacing,150-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 2 currently hovering over
+
 
         g2.drawImage(darkDekuImage,300,150,180,126,null);
         g2.drawImage(narutoImage, 490, 150, 180, 126, null);
