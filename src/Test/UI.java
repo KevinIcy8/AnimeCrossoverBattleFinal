@@ -155,6 +155,7 @@ public class UI {
         g2.drawString(text,gp.screenWidth-10-(gp.tileSize+50), 140);
 
         g2.drawImage(darkDekuImage,300,150,180,126,null);
+        g2.drawImage(narutoImage, 490, 150, 180, 126, null);
     }
 
     public void drawControlScreen(){
