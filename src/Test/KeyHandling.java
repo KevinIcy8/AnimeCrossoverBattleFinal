@@ -42,7 +42,7 @@ public class KeyHandling implements KeyListener {
                     //stuff needs to be added for this
                 }
                 if(gp.ui.commandNum == 1){
-                    gp.gameState = gp.twoPlayState;
+                    gp.gameState = gp.characterSelectionState;
                 }
                 if(gp.ui.commandNum == 2){
                     gp.gameState = gp.controlState;
@@ -51,6 +51,16 @@ public class KeyHandling implements KeyListener {
                 if(gp.ui.commandNum == 3){
                     System.exit(0);
                 }
+            }
+        }
+        if(gp.gameState == gp.singlePlayState){
+            if(code == KeyEvent.VK_ESCAPE){
+                gp.gameState = gp.titleState;
+            }
+        }
+        if(gp.gameState == gp.controlState){
+            if(code == KeyEvent.VK_ESCAPE){
+                gp.gameState = gp.titleState;
             }
         }
 
@@ -125,5 +135,7 @@ public class KeyHandling implements KeyListener {
             jPressed = false;
             attacking = false;
         }
+
+
     }
 }

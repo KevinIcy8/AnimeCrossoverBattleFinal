@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
+
     //FPS
     int FPS = 60;
     TileManager tileM = new TileManager(this);
@@ -31,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int singlePlayState = 1;
     public final int twoPlayState = 2;
     public final int controlState = 3;
+    public final int characterSelectionState = 4;
 
 
 
@@ -105,7 +107,10 @@ public class GamePanel extends JPanel implements Runnable{
             ui.draw(g2);
         }
         else if(gameState == singlePlayState){
-
+            ui.draw(g2);
+        }
+        else if(gameState == characterSelectionState){
+            ui.draw(g2);
         }
         else if(gameState == twoPlayState){
             tileM.draw(g2);
