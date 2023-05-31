@@ -1,8 +1,12 @@
 package Test;
 
+import tile.Tile;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -11,8 +15,13 @@ public class UI {
     Graphics2D g2;
     Font maruMonica, purisaB;
     BufferedImage singlePlayerTitle, twoPlayerTitle, controlTitle, exitTitle;
-    BufferedImage darkDekuImage, narutoImage;
+    BufferedImage darkDekuImage, narutoImage, lightYagamiImage, tanjiroImage, ichigoImage, gonImage, erenImage, gojoImage, astaImage;
     public int commandNum = 0;
+    public int charSelectNumX = 0;
+    public int charSelectNumY = 0;
+    public BufferedImage image;
+    public BufferedImage[] images;
+
 
     public UI(GamePanel gp){
         this.gp = gp;
@@ -46,6 +55,9 @@ public class UI {
         }
 
     }
+    public void loadCharacterConfiguration(){
+
+    }
     public void getTitleImages(){
         try{
             singlePlayerTitle = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("titleScreen/ichigo_titleScreen.jpeg")));
@@ -60,8 +72,16 @@ public class UI {
 
     public void getCharacterSelectionImages(){
         try{
+
             darkDekuImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/dark_deku_head.png")));
             narutoImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/naruto_head.png")));
+            lightYagamiImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/light_yagami_head.png")));
+            tanjiroImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/tanjiro_head.png")));
+            ichigoImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/ichigo_head.png")));
+            gonImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/gon_head.png")));
+            gojoImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/gojo_head.png")));
+            erenImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/eren_yeager_head.png")));
+            astaImage = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characterSelection/asta_head.png")));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -137,6 +157,11 @@ public class UI {
 
     public void drawCharSelectionScreen(){
         int spacing = 5;
+        int startX = 350;
+        int startY = 170;
+        int pictureSpacing = 10;
+        int width = 180;
+        int height = 126;
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
         String text = "Two Player";
         int x = getXForCenteredText(text);
@@ -150,17 +175,61 @@ public class UI {
         g2.fillRect(10,150,gp.tileSize + 50,gp.tileSize*2); //rectangle for where the character is display p1
         text = "P1";
         g2.drawString(text,10, 140);
-        g2.fillRect(300-spacing,150-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 1 currently hovering over
+        //g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 1 currently hovering over
 
         g2.setColor(Color.BLUE);
         g2.fillRect(gp.screenWidth-10-(gp.tileSize+50),150,gp.tileSize + 50,gp.tileSize*2);//rectangle for where the character is display p2
         text = "P2";
         g2.drawString(text,gp.screenWidth-10-(gp.tileSize+50), 140);
-        g2.fillRect(490-spacing,150-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 2 currently hovering over
+        g2.fillRect(startX + (width + pictureSpacing)*2-spacing,startY-spacing,180 + spacing*2,126 + spacing*2); //rectangle to know which character is player 2 currently hovering over
+
+        if(charSelectNumX == 0 && charSelectNumY == 0){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 0 && charSelectNumY == 1){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY+(height)+spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 0 && charSelectNumY == 2){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY+(height+spacing)*2 + 5,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 1 && charSelectNumY == 0){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 1 && charSelectNumY == 1){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 1 && charSelectNumY == 2){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 2 && charSelectNumY == 0){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 2 && charSelectNumY == 1){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
+        if(charSelectNumX == 2 && charSelectNumY == 2){
+            g2.setColor(Color.RED);
+            g2.fillRect(startX-spacing,startY-spacing,180 + spacing*2,126 + spacing*2);
+        }
 
 
-        g2.drawImage(darkDekuImage,300,150,180,126,null);
-        g2.drawImage(narutoImage, 490, 150, 180, 126, null);
+        g2.drawImage(darkDekuImage,startX,startY,width,height,null);
+        g2.drawImage(narutoImage, startX + width + pictureSpacing, startY, 180, 126, null);
+        g2.drawImage(lightYagamiImage,startX + (width + pictureSpacing)*2,startY,180,126,null); //x = 680
+        g2.drawImage(tanjiroImage, startX, startY + height + pictureSpacing, 180, 126, null);
+        g2.drawImage(ichigoImage,startX + width + pictureSpacing,startY + height + pictureSpacing,180,126,null);
+        g2.drawImage(gonImage, startX + (width + pictureSpacing)*2, startY + height + pictureSpacing, 180, 126, null);
+        g2.drawImage(gojoImage, startX, startY + (height + pictureSpacing)*2, 180, 126, null);
+        g2.drawImage(erenImage,startX + width + pictureSpacing,startY + (height + pictureSpacing)*2,180,126,null);
+        g2.drawImage(astaImage, startX + (width + pictureSpacing)*2, startY + (height + pictureSpacing)*2, 180, 126, null);
     }
 
     public void drawControlScreen(){

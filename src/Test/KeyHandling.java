@@ -42,6 +42,7 @@ public class KeyHandling implements KeyListener {
                     //stuff needs to be added for this
                 }
                 if(gp.ui.commandNum == 1){
+                    //gp.gameState = gp.twoPlayState;
                     gp.gameState = gp.characterSelectionState;
                 }
                 if(gp.ui.commandNum == 2){
@@ -61,6 +62,44 @@ public class KeyHandling implements KeyListener {
         if(gp.gameState == gp.controlState){
             if(code == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.titleState;
+            }
+        }
+        if(gp.gameState == gp.characterSelectionState){
+            if (code == KeyEvent.VK_W) {
+                gp.ui.charSelectNumY--;
+                if(gp.ui.charSelectNumY < 0){
+                    gp.ui.charSelectNumY = 2;
+                }
+            }
+            if (code == KeyEvent.VK_S) {
+                gp.ui.charSelectNumY++;
+                if(gp.ui.charSelectNumY > 2){
+                    gp.ui.charSelectNumY = 0;
+                }
+            }
+            if (code == KeyEvent.VK_A) {
+                gp.ui.charSelectNumX--;
+                if(gp.ui.charSelectNumY < 0){
+                    gp.ui.charSelectNumY = 2;
+                }
+            }
+            if (code == KeyEvent.VK_D) {
+                gp.ui.charSelectNumX++;
+                if(gp.ui.charSelectNumY > 2){
+                    gp.ui.charSelectNumY = 0;
+                }
+            }
+            if (code == KeyEvent.VK_UP) {
+                upPressed2 = true;
+            }
+            if (code == KeyEvent.VK_DOWN) {
+                downPressed2 = true;
+            }
+            if (code == KeyEvent.VK_LEFT) {
+                leftPressed2 = true;
+            }
+            if (code == KeyEvent.VK_RIGHT) {
+                rightPressed2 = true;
             }
         }
 
