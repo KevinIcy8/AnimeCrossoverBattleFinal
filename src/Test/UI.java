@@ -10,7 +10,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-public class UI {
+public class
+UI {
     GamePanel gp;
     Graphics2D g2;
     Font maruMonica, purisaB;
