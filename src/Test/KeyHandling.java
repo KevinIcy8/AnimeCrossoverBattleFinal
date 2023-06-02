@@ -79,27 +79,42 @@ public class KeyHandling implements KeyListener {
             }
             if (code == KeyEvent.VK_A) {
                 gp.ui.charSelectNumX--;
-                if(gp.ui.charSelectNumY < 0){
-                    gp.ui.charSelectNumY = 2;
+                if(gp.ui.charSelectNumX < 0){
+                    gp.ui.charSelectNumX = 2;
                 }
             }
             if (code == KeyEvent.VK_D) {
                 gp.ui.charSelectNumX++;
-                if(gp.ui.charSelectNumY > 2){
-                    gp.ui.charSelectNumY = 0;
+                if(gp.ui.charSelectNumX > 2){
+                    gp.ui.charSelectNumX = 0;
                 }
             }
             if (code == KeyEvent.VK_UP) {
-                upPressed2 = true;
+                gp.ui.charSelectNumY2--;
+                if(gp.ui.charSelectNumY2 < 0){
+                    gp.ui.charSelectNumY2 = 2;
+                }
             }
             if (code == KeyEvent.VK_DOWN) {
-                downPressed2 = true;
+                gp.ui.charSelectNumY2++;
+                if(gp.ui.charSelectNumY2 > 2){
+                    gp.ui.charSelectNumY2 = 0;
+                }
             }
             if (code == KeyEvent.VK_LEFT) {
-                leftPressed2 = true;
+                gp.ui.charSelectNumX2--;
+                if(gp.ui.charSelectNumX2 < 0){
+                    gp.ui.charSelectNumX2 = 2;
+                }
             }
             if (code == KeyEvent.VK_RIGHT) {
-                rightPressed2 = true;
+                gp.ui.charSelectNumX2++;
+                if(gp.ui.charSelectNumX2 > 2){
+                    gp.ui.charSelectNumX2 = 0;
+                }
+            }
+            if(code == KeyEvent.VK_ESCAPE){
+                gp.gameState = gp.titleState;
             }
         }
 
