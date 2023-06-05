@@ -1,5 +1,6 @@
 package Test;
 
+import Entity.Characters;
 import Entity.Player;
 import Entity.PlayerTwo;
 import tile.TileManager;
@@ -21,11 +22,14 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
     TileManager tileM = new TileManager(this);
     KeyHandling keyH = new KeyHandling(this);
+    public UI ui = new UI(this);
+    public Characters characters = new Characters(this);
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
-    Player player = new Player(this, keyH);
+    Player player = new Player(this, keyH, ui, characters);
     PlayerTwo playerTwo = new PlayerTwo(this, keyH);
-    UI ui = new UI(this);
+
+
 
     public int gameState;
     public final int titleState = 0;
@@ -97,6 +101,8 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
+       // characters.printCharacter();
+        characters.update();
         player.update();
         playerTwo.update();
     }
@@ -105,6 +111,7 @@ public class GamePanel extends JPanel implements Runnable{
         Graphics2D g2 = (Graphics2D) g;
         if(gameState == titleState){
             ui.draw(g2);
+            player.draw(g2);
         }
         else if(gameState == singlePlayState){
             ui.draw(g2);
@@ -116,6 +123,7 @@ public class GamePanel extends JPanel implements Runnable{
             tileM.draw(g2);
             player.draw(g2);
             playerTwo.draw(g2);
+
         }
         else if(gameState == controlState){
             ui.draw(g2);

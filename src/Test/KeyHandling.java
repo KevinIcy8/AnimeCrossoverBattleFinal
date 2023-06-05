@@ -116,6 +116,12 @@ public class KeyHandling implements KeyListener {
             if(code == KeyEvent.VK_ESCAPE){
                 gp.gameState = gp.titleState;
             }
+            if(code == KeyEvent.VK_C){ //select button player 1
+                gp.ui.characterSelectedP1 =  gp.characters.getCharacterSelected(gp.ui.charSelectNumX,gp.ui.charSelectNumY);
+            }
+            if(code == KeyEvent.VK_8){ //select button player 2
+                gp.ui.characterSelectedP2 =  gp.characters.getCharacterSelected(gp.ui.charSelectNumX2,gp.ui.charSelectNumY2);
+            }
         }
 
         if(gp.gameState == gp.singlePlayState || gp.gameState == gp.twoPlayState) {

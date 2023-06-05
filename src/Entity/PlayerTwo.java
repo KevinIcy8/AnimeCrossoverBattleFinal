@@ -40,12 +40,12 @@ public class PlayerTwo extends Entity{
     public void getPLayerImage(){
         try{
 
-            left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left1.png.png")));
-            left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left2.png.png")));
-            left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left3.png")));
-            right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right1.png.png")));
-            right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right2.png.png")));
-            right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right3.png")));
+            left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left1.png.png")));
+            left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left2.png.png")));
+            left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left3.png")));
+            right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right1.png.png")));
+            right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right2.png.png")));
+            right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right3.png")));
 
         }catch (IOException e){
             e.printStackTrace();

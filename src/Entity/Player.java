@@ -2,17 +2,20 @@ package Entity;
 
 import Test.GamePanel;
 import Test.KeyHandling;
+import Test.UI;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.Objects;
 
 public class Player extends Entity{
     GamePanel gp;
     KeyHandling keyH;
+    UI ui;
+    Characters characters;
+
     private int jumpHeight; //test
     private boolean falling = true;
 
@@ -22,14 +25,15 @@ public class Player extends Entity{
     private boolean wasFacingLeft;
     private boolean wasFacingRight;
 
-    public Player(GamePanel gp, KeyHandling keyH){
+    public Player(GamePanel gp, KeyHandling keyH, UI ui, Characters characters){
         this.gp = gp;
         this.keyH = keyH;
+        this.ui = ui;
+        this.characters = characters;
         solidArea = new Rectangle(24,32,80,96);
         setDefaultValues();
-        getPLayerImage();
+        getPLayerMovementImage();
         getPlayerAttackImage();
-
     }
 
     public void setDefaultValues(){
@@ -40,23 +44,27 @@ public class Player extends Entity{
         direction = "right";
         wasFacingRight = true;
     }
-    public void getPLayerImage(){
-        try{
+    public void getPLayerMovementImage(){
+        //gp.characters.loadMovementImage();
+//        System.out.println(gp.ui.characterSelectedP1);
+//
+            try {
+                if(gp.ui.characterSelectedP1.equals("dark_deku")) {
+                    left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left1.png.png")));
+                    left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left2.png.png")));
+                    left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left3.png")));
+                    right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right1.png.png")));
+                    right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right2.png.png")));
+                    right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_right3.png")));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left1.png.png")));
-        left2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left2.png.png")));
-        left3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_left3.png")));
-        right1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right1.png.png")));
-        right2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right2.png.png")));
-        right3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/dark_deku_right3.png")));
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
     }
     public void getPlayerAttackImage(){
         try{
-            basicLeft1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft1.png")));
+            basicLeft1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/BasicAtk/basic_attackleft1.png")));
             basicLeft2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft2.png")));
             basicLeft3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft3.png")));
             basicRight1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright1.png")));
@@ -74,6 +82,7 @@ public class Player extends Entity{
 //
 //    }
     public void update(){
+        getPLayerMovementImage();
         //System.out.println(keyH.attacking);
         groundCollisionOn = false;
         leftCollisionOn = false;

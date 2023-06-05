@@ -22,12 +22,16 @@ UI {
     public int charSelectNumY = 0;
     public int charSelectNumX2 = 2;
     public int charSelectNumY2 = 0;
+    public String characterSelectedP1;
+    public String characterSelectedP2;
     public BufferedImage image;
     public BufferedImage[] images;
 
 
     public UI(GamePanel gp){
         this.gp = gp;
+        characterSelectedP1 = "";
+        characterSelectedP2 = "";
         getTitleImages();
         getCharacterSelectionImages();
 //        try{
@@ -52,6 +56,9 @@ UI {
         }
         if(gp.gameState == gp.characterSelectionState){
             drawCharSelectionScreen();
+            if(!characterSelectedP1.equals("") && !characterSelectedP2.equals("")){
+                gp.gameState = gp.twoPlayState;
+            }
         }
         if(gp.gameState == gp.controlState){
             drawControlScreen();
@@ -61,12 +68,14 @@ UI {
     public void loadCharacterConfiguration(){
 
     }
+    BufferedImage narutoTestSpriteSheet;
     public void getTitleImages(){
         try{
             singlePlayerTitle = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("titleScreen/ichigo_titleScreen.jpeg")));
             twoPlayerTitle = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("titleScreen/sasukevsnaruto.jpeg")));
             controlTitle = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("titleScreen/makima_controls.jpeg")));
             exitTitle = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("titleScreen/animecrossover_exit.png")));
+            narutoTestSpriteSheet = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run-removebg-preview.png")));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -96,6 +105,9 @@ UI {
         if(commandNum == 0){
             image = singlePlayerTitle;
             g2.drawImage(image,0,0, gp.screenWidth, gp.screenHeight,null);
+            BufferedImage subImage;
+            subImage = narutoTestSpriteSheet.getSubimage(2*110, 0, 110, 110);
+            g2.drawImage(subImage, 0, 300, 256, 220, null);
         }
         else if(commandNum == 1){
             image = twoPlayerTitle;
@@ -111,7 +123,7 @@ UI {
         }
         //Title Name
         g2.setFont(g2.getFont().deriveFont(Font.BOLD,96F));
-        String text = "Anime Smash Bros";
+        String text = "Anime Crossover Battle";
         int x = getXForCenteredText(text);
         int y = gp.tileSize;
 
@@ -187,6 +199,15 @@ UI {
         text = "P2";
         g2.drawString(text,gp.screenWidth-10-(gp.tileSize+50), 140);
 
+        System.out.println(characterSelectedP1);
+
+        if(characterSelectedP1.equals("dark_deku")){
+            g2.drawImage(gp.player.right3, 30, 200, gp.tileSize*2, gp.tileSize*2, null);
+        }
+        if(characterSelectedP2.equals("dark_deku")){
+            g2.drawImage(gp.player.left3, gp.screenWidth-30-(gp.tileSize*2), 200, gp.tileSize*2, gp.tileSize*2, null);
+        }
+
 
         if(charSelectNumX == charSelectNumX2 && charSelectNumY == charSelectNumY2){
             charSelectSame(startX1,startY1,width,height,spacing);//if player 1 and player 2 chooses the same character
@@ -204,6 +225,10 @@ UI {
         g2.drawImage(gojoImage, startX1, startY1 + (height + pictureSpacing)*2, 180, 126, null);
         g2.drawImage(erenImage,startX1 + width + pictureSpacing,startY1 + (height + pictureSpacing)*2,180,126,null);
         g2.drawImage(astaImage, startX1 + (width + pictureSpacing)*2, startY1 + (height + pictureSpacing)*2, 180, 126, null);
+
+//        if(gp.keyH.upPressed) {
+//
+//        }
     }
 
 
@@ -217,13 +242,48 @@ UI {
         g2.setColor(new Color(0,0,0));
         g2.drawString(text,x, y);
 
-        g2.setFont(g2.getFont().deriveFont(Font.BOLD,48F));
+        g2.setFont(g2.getFont().deriveFont(Font.BOLD,36F));
         text = "P1";
         g2.setColor(Color.RED);
-        g2.drawString(text,10, 140);
+        g2.drawString(text,180, 180);
         g2.setColor(Color.BLACK);
-        text = "Up: W\nDown: S\nLeft: cA\nRight: cD\nNormal: C\nSpecial: V\nUlt: X";
-        g2.drawString(text,10, 160);
+        int spacing = 80;
+        int x1 = 180;
+        int startY = 240;
+        text = "Up: W";
+        g2.drawString(text,x1, startY);
+        text = "Down: S";
+        g2.drawString(text,x1, startY+spacing);
+        text = "Left: A ";
+        g2.drawString(text,x1, startY+spacing*2);
+        text = "Right: D";
+        g2.drawString(text,x1, startY+spacing*3);
+        text = "Normal: C";
+        g2.drawString(text,x1, startY+spacing*4);
+        text = "Special: V";
+        g2.drawString(text,x1, startY+spacing*5);
+        text = "Ult: X";
+        g2.drawString(text,x1, startY+spacing*6);
+        int x2 = gp.screenWidth - 450;
+        text = "P2";
+        g2.setColor(Color.BLUE);
+        g2.drawString(text, x2, 180);
+        g2.setColor(Color.BLACK);
+        text = "Up: Up Arrow";
+        g2.drawString(text,x2, startY);
+        text = "Down: Down Arrow";
+        g2.drawString(text,x2, startY+spacing);
+        text = "Left: Left Arrow ";
+        g2.drawString(text,x2, startY+spacing*2);
+        text = "Right: Right Arrow";
+        g2.drawString(text,x2, startY+spacing*3);
+        text = "Normal: 8";
+        g2.drawString(text,x2, startY+spacing*4);
+        text = "Special: 9";
+        g2.drawString(text,x2, startY+spacing*5);
+        text = "Ult: 0";
+        g2.drawString(text,x2, startY+spacing*6);
+
 
     }
     public void drawSinglePlayerScreen(){ //WIP not gonna completed by due date
