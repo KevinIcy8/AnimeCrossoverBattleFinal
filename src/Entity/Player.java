@@ -34,7 +34,8 @@ public class Player extends Entity{
     private int playerAction = IDLE;
     private int playerDirection = -1;
     private boolean moving = false;
-    private BufferedImage[] rightRunningAnimations, leftRunningAnimations, rightIdleAnimations, leftIdleAnimations, rightUltiAnimations;
+    //private BufferedImage[] rightRunningAnimations, leftRunningAnimations, rightIdleAnimations, leftIdleAnimations, rightUltiAnimations;
+    //private BufferedImage[] rightBasicAnimations, leftBasicAnimations, rightSpecialAnimations, leftSpecialAnimations, leftUltiAnimations;
 
     public Player(GamePanel gp, KeyHandling keyH, UI ui, Characters characters){
         this.gp = gp;
@@ -62,18 +63,44 @@ public class Player extends Entity{
                     rightIdleAnimations[i] = rightIdleImg.getSubimage(i * 123, 0, 123, 126);
                 }
 
+            BufferedImage leftRunningImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run_flipped-removebg-preview.png")));
+            leftRunningAnimations = new BufferedImage[6];
+            for (int i = 0; i < leftRunningAnimations.length; i++) {
+                leftRunningAnimations[i] = leftRunningImg.getSubimage(i * 105, 0, 105, 112);
+            }
 
             BufferedImage rightRunningImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run-removebg-preview.png")));
             rightRunningAnimations = new BufferedImage[6];
                 for (int i = 0; i < rightRunningAnimations.length; i++) {
                     rightRunningAnimations[i] = rightRunningImg.getSubimage(i * 105, 0, 105, 112);
                 }
+            BufferedImage leftBasicImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_basic_flipped-removebg-preview.png")));
+            leftBasicAnimations = new BufferedImage[5];
+            for (int i = 0; i < leftBasicAnimations.length; i++) {
+                leftBasicAnimations[i] = leftBasicImg.getSubimage(i * 144, 0, 144, 114);
+            }
+            BufferedImage rightBasicImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_basic-removebg-preview.png")));
+            rightBasicAnimations = new BufferedImage[5];
+            for (int i = 0; i < rightBasicAnimations.length; i++) {
+                rightBasicAnimations[i] = rightBasicImg.getSubimage(i * 144, 0, 144, 114);
+            }
 
-            BufferedImage leftRunningImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run_flipped-removebg-preview.png")));
-            leftRunningAnimations = new BufferedImage[6];
-                for (int i = 0; i < leftRunningAnimations.length; i++) {
-                    leftRunningAnimations[i] = leftRunningImg.getSubimage(i * 105, 0, 105, 112);
-                }
+            BufferedImage leftSpecialImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_special_flipped-removebg-preview (1).png")));
+            leftSpecialAnimations = new BufferedImage[3];
+            for (int i = 0; i < leftSpecialAnimations.length; i++) {
+                leftSpecialAnimations[i] = leftSpecialImg.getSubimage(i * 144, 0, 144, 110);
+            }
+            BufferedImage rightSpecialImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_special.png")));
+            rightSpecialAnimations = new BufferedImage[3];
+            for (int i = 0; i < rightSpecialAnimations.length; i++) {
+                rightSpecialAnimations[i] = rightSpecialImg.getSubimage(i * 144, 0, 144, 110);
+            }
+
+            BufferedImage leftUltiImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_ult-removebg-preview.png")));
+            leftUltiAnimations = new BufferedImage[7];
+            for (int i = 0; i < leftUltiAnimations.length; i++) {
+                leftUltiAnimations[i] = leftUltiImg.getSubimage(i * 176, 0, 176, 136);
+            }
 
             BufferedImage rightUltiImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_ult-removebg-preview.png")));
             rightUltiAnimations = new BufferedImage[7];
@@ -177,6 +204,7 @@ public class Player extends Entity{
 //
 //    }
     public void update(){
+        //System.out.println(playerAction);
         //gp.characters.loadMovementImage();
         getPLayerMovementImage();
         updateAnimationTick();
@@ -217,26 +245,31 @@ public class Player extends Entity{
         }
         if(keyH.basicPressed){
             attacking = true;
-            spriteCounter ++;
-            if(spriteCounter <= 5){
-                spriteNum = 1;
-            }
-            if(spriteNum > 5 && spriteCounter <= 10){
-                spriteNum = 2;
-            }
-            if(spriteNum > 10 && spriteCounter <= 25){
-                spriteNum = 3;
-            }
-            if(spriteNum > 25){
-                spriteNum = 1;
-                spriteCounter = 0;
-                attacking = false;
-            }
+            playerAction = BASIC_ATK;
+//            spriteCounter ++;
+//            if(spriteCounter <= 5){
+//                spriteNum = 1;
+//            }
+//            if(spriteNum > 5 && spriteCounter <= 10){
+//                spriteNum = 2;
+//            }
+//            if(spriteNum > 10 && spriteCounter <= 25){
+//                spriteNum = 3;
+//            }
+//            if(spriteNum > 25){
+//                spriteNum = 1;
+//                spriteCounter = 0;
+//                attacking = false;
+//            }
         }
-        if(keyH.ultiPressed){
+        else if(keyH.specialPressed){
+
+            attacking = true;
+            playerAction = SPECIAL_ATK;
+        }
+        else if(keyH.ultiPressed){
             attacking = true;
             playerAction = ULTI;
-
         }
         else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if(spriteNum == 3){
@@ -298,6 +331,9 @@ public class Player extends Entity{
             }
         }
         else{
+            if (attacking) {
+                return;
+            }
             spriteNum = 3;
             playerAction = IDLE;
         }
@@ -329,11 +365,28 @@ public class Player extends Entity{
 
             case "left":
 
-                if(playerAction == RUNNING){
-                    g2.drawImage(leftRunningAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
+
+                if(playerAction != BASIC_ATK && playerAction != SPECIAL_ATK && playerAction != ULTI) {
+                if (playerAction == RUNNING) {
+                    g2.drawImage(leftIdleAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
                 }
-                if(playerAction == IDLE){
-                    g2.drawImage(leftIdleAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
+                if (playerAction == IDLE) {
+                    g2.drawImage(leftIdleAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                }
+                }
+                else {
+                    if (playerAction == BASIC_ATK) {
+                        g2.drawImage(leftBasicAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        //attacking = false;
+                    }
+                    if (playerAction == SPECIAL_ATK) {
+                        g2.drawImage(leftSpecialAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        //attacking = false;
+                    }
+                    if (playerAction == ULTI) {
+                        g2.drawImage(leftUltiAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        //attacking = false;
+                    }
                 }
 //                if(!keyH.attacking) {
 //                    if (spriteNum == 1) {
@@ -359,7 +412,7 @@ public class Player extends Entity{
 //                }
                 break;
             case "right":
-                if(!keyH.attacking) {
+                if(playerAction != BASIC_ATK && playerAction != SPECIAL_ATK && playerAction != ULTI) {
                     if (playerAction == RUNNING) {
                         g2.drawImage(rightRunningAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
                     }
@@ -368,9 +421,17 @@ public class Player extends Entity{
                     }
                 }
                 else {
+                    if (playerAction == BASIC_ATK) {
+                        g2.drawImage(rightBasicAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        //attacking = false;
+                    }
+                    if (playerAction == SPECIAL_ATK) {
+                        g2.drawImage(rightSpecialAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        //attacking = false;
+                    }
                     if (playerAction == ULTI) {
                         g2.drawImage(rightUltiAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
-                        attacking = false;
+                        //attacking = false;
                     }
                 }
 

@@ -162,8 +162,24 @@ public class KeyHandling implements KeyListener {
                 basicPressed = true;
                 attacking = true;
             }
+            if(code == KeyEvent.VK_V){
+                specialPressed = true;
+                attacking = true;
+            }
             if (code == KeyEvent.VK_X) {
                 ultiPressed = true;
+                attacking = true;
+            }
+            if (code == KeyEvent.VK_8) {
+                basicPressed2 = true;
+                attacking = true;
+            }
+            if(code == KeyEvent.VK_9){
+                specialPressed2 = true;
+                attacking = true;
+            }
+            if (code == KeyEvent.VK_0) {
+                ultiPressed2 = true;
                 attacking = true;
             }
         }
@@ -200,14 +216,29 @@ public class KeyHandling implements KeyListener {
         if(code == KeyEvent.VK_SPACE){
             spacePressed = false;
         }
-        if(code == KeyEvent.VK_J){
+        if(code == KeyEvent.VK_C){
             basicPressed = false;
+            attacking = false;
+        }
+        if(code == KeyEvent.VK_V){
+            specialPressed = false;
             attacking = false;
         }
         if (code == KeyEvent.VK_X) {
             ultiPressed = false;
         }
-
+        if (code == KeyEvent.VK_8) {
+            basicPressed2 = false;
+            attacking = false;
+        }
+        if(code == KeyEvent.VK_9){
+            specialPressed2 = false;
+            attacking = false;
+        }
+        if (code == KeyEvent.VK_0) {
+            ultiPressed2 = false;
+            attacking = false;
+        }
 
     }
 }

@@ -15,7 +15,7 @@ public class Characters extends Entity{
 
     public Characters(GamePanel gp){
         this.gp = gp;
-        loadMovementImage();
+        loadAnimations();
         try {
             InputStream is = getClass().getResourceAsStream("/characterSelection/characterSelectionOrder.txt");
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -41,7 +41,7 @@ public class Characters extends Entity{
         }
     }
 
-    public void loadMovementImage(){
+    public void loadAnimations(){
         try{
             if(gp.ui.characterSelectedP1.equals("dark_deku")){
                 left1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("characters/dark_deku/dark_deku_left1.png.png")));
@@ -71,7 +71,7 @@ public class Characters extends Entity{
     }
 
     public void update(){
-        loadMovementImage();
+        loadAnimations();
     }
 
 

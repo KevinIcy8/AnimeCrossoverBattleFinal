@@ -34,7 +34,7 @@ public class Constants {
                 case BASIC_ATK:
                     return 5;
                 case SPECIAL_ATK:
-                    return 4;
+                    return 3;
                 case ULTI:
                     return 7;
                 default:

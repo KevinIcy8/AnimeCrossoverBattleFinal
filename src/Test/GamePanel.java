@@ -29,7 +29,7 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
     public CollisionChecker cChecker = new CollisionChecker(this);
     Player player = new Player(this, keyH, ui, characters);
-    PlayerTwo playerTwo = new PlayerTwo(this, keyH);
+    PlayerTwo playerTwo = new PlayerTwo(this, keyH, ui, characters);
 
 
 

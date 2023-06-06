@@ -213,6 +213,24 @@ UI {
         if(characterSelectedP2.equals("dark_deku")){
             g2.drawImage(gp.player.left3, gp.screenWidth-30-(gp.tileSize*2), 200, gp.tileSize*2, gp.tileSize*2, null);
         }
+        if(characterSelectedP1.equals("naruto")){
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_single_pic.png")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            g2.drawImage(img, 30, 200, gp.tileSize*2, gp.tileSize*2, null);
+        }
+        if(characterSelectedP2.equals("naruto")){
+            BufferedImage img = null;
+            try {
+                img = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_single_pic_flipped.png")));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            g2.drawImage(img, gp.screenWidth-30-(gp.tileSize*2), 200, gp.tileSize*2, gp.tileSize*2, null);
+        }
 
 
         if(charSelectNumX == charSelectNumX2 && charSelectNumY == charSelectNumY2){
