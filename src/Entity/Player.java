@@ -10,6 +10,10 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
+import static Test.Constants.Directions.*;
+import static Test.Constants.PlayerConstants.*;
+
+
 public class Player extends Entity{
     GamePanel gp;
     KeyHandling keyH;
@@ -25,6 +29,13 @@ public class Player extends Entity{
     private boolean wasFacingLeft;
     private boolean wasFacingRight;
 
+
+    private int aniTick, aniIndex, aniSpeed = 6;
+    private int playerAction = IDLE;
+    private int playerDirection = -1;
+    private boolean moving = false;
+    private BufferedImage[] rightRunningAnimations, leftRunningAnimations, rightIdleAnimations, leftIdleAnimations, rightUltiAnimations;
+
     public Player(GamePanel gp, KeyHandling keyH, UI ui, Characters characters){
         this.gp = gp;
         this.keyH = keyH;
@@ -33,7 +44,90 @@ public class Player extends Entity{
         solidArea = new Rectangle(24,32,80,96);
         setDefaultValues();
         getPLayerMovementImage();
-        getPlayerAttackImage();
+        loadAnimations();
+        //getPlayerAttackImage();
+    }
+
+    public void loadAnimations(){
+        try {
+            BufferedImage leftIdleImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_idle_flipped-removebg-preview.png")));
+            leftIdleAnimations = new BufferedImage[4];
+            for (int i = 0; i < leftIdleAnimations.length; i++) {
+                leftIdleAnimations[i] = leftIdleImg.getSubimage(i * 123, 0, 123, 126);
+            }
+
+            BufferedImage rightIdleImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_idle-removebg-preview.png")));
+            rightIdleAnimations = new BufferedImage[4];
+                for (int i = 0; i < rightIdleAnimations.length; i++) {
+                    rightIdleAnimations[i] = rightIdleImg.getSubimage(i * 123, 0, 123, 126);
+                }
+
+
+            BufferedImage rightRunningImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run-removebg-preview.png")));
+            rightRunningAnimations = new BufferedImage[6];
+                for (int i = 0; i < rightRunningAnimations.length; i++) {
+                    rightRunningAnimations[i] = rightRunningImg.getSubimage(i * 105, 0, 105, 112);
+                }
+
+            BufferedImage leftRunningImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_run_flipped-removebg-preview.png")));
+            leftRunningAnimations = new BufferedImage[6];
+                for (int i = 0; i < leftRunningAnimations.length; i++) {
+                    leftRunningAnimations[i] = leftRunningImg.getSubimage(i * 105, 0, 105, 112);
+                }
+
+            BufferedImage rightUltiImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_ult-removebg-preview.png")));
+            rightUltiAnimations = new BufferedImage[7];
+            for (int i = 0; i < rightUltiAnimations.length; i++) {
+                rightUltiAnimations[i] = rightUltiImg.getSubimage(i * 176, 0, 176, 136);
+            }
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    private void updateAnimationTick(){
+        aniTick++;
+        if(aniTick>=aniSpeed){
+            aniTick = 0;
+            aniIndex++;
+            if(aniIndex >= GetSpriteAmount(playerAction)){
+                aniIndex = 0;
+                attacking = false;
+            }
+        }
+    }
+
+//    public void setDirection(int direction){
+//        this.playerDirection = direction;
+//        moving = true;
+//    }
+//    public void setMoving(boolean moving){
+//        this.moving = moving;
+//    }
+
+//    private void updatePos(){
+//        if(moving){
+//            switch(playerDirection){
+//                case LEFT:
+//                    x -= 5;
+//                case UP:
+//                    y += 5;
+//                case RIGHT:
+//                    x += 5;
+//                case DOWN:
+//                    y -= 5;
+//            }
+//        }
+//    }
+    public void setAnimations(){
+        if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
+            playerAction = RUNNING;
+        }
+        else{
+            playerAction = IDLE;
+        }
     }
 
     public void setDefaultValues(){
@@ -42,6 +136,7 @@ public class Player extends Entity{
         speed = 10;
         jumpHeight = 25; //test
         direction = "right";
+        playerAction = IDLE;
         wasFacingRight = true;
     }
     public void getPLayerMovementImage(){
@@ -62,19 +157,19 @@ public class Player extends Entity{
             }
 
     }
-    public void getPlayerAttackImage(){
-        try{
-            basicLeft1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/BasicAtk/basic_attackleft1.png")));
-            basicLeft2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft2.png")));
-            basicLeft3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft3.png")));
-            basicRight1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright1.png")));
-            basicRight2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright2.png")));
-            basicRight3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright3.png")));
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-    }
+//    public void getPlayerAttackImage(){
+//        try{
+////            basicLeft1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/BasicAtk/basic_attackleft1.png")));
+////            basicLeft2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft2.png")));
+////            basicLeft3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackleft3.png")));
+////            basicRight1 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright1.png")));
+////            basicRight2 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright2.png")));
+////            basicRight3 = ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/basic_attackright3.png")));
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     //SAVE FOR A LATER DATE
 //    public BufferedImage setUp(String imagePath){
@@ -82,7 +177,13 @@ public class Player extends Entity{
 //
 //    }
     public void update(){
+        //gp.characters.loadMovementImage();
         getPLayerMovementImage();
+        updateAnimationTick();
+       // setAnimations();
+            //updatePos();
+        //System.out.println(aniIndex);
+
         //System.out.println(keyH.attacking);
         groundCollisionOn = false;
         leftCollisionOn = false;
@@ -114,7 +215,7 @@ public class Player extends Entity{
             y = 511.9;
             gravity = 0;
         }
-        if(keyH.jPressed){
+        if(keyH.basicPressed){
             attacking = true;
             spriteCounter ++;
             if(spriteCounter <= 5){
@@ -132,6 +233,11 @@ public class Player extends Entity{
                 attacking = false;
             }
         }
+        if(keyH.ultiPressed){
+            attacking = true;
+            playerAction = ULTI;
+
+        }
         else if(keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if(spriteNum == 3){
                 spriteNum = 1;
@@ -139,6 +245,7 @@ public class Player extends Entity{
 
             if(keyH.upPressed){//&& keyH.jumpCounter <= 1){
                 direction = "up";
+                playerAction = RUNNING;
             }
             /*if(keyH.downPressed){
                 direction = "down";
@@ -147,11 +254,13 @@ public class Player extends Entity{
                 direction = "left";
                 wasFacingRight = false;
                 wasFacingLeft = true;
+                playerAction = RUNNING;
             }
             if(keyH.rightPressed){
                 direction = "right";
                 wasFacingLeft = false;
                 wasFacingRight = true;
+                playerAction = RUNNING;
             }
 
             if(groundCollisionOn){
@@ -172,8 +281,6 @@ public class Player extends Entity{
 
             if(!groundCollisionOn && !leftCollisionOn && !rightCollisionOn){
                 switch (direction) {
-                    //case "up" -> gravity = jumpHeight * (-1);
-                    //case "down" -> y += speed;
                     case "left" -> x -= speed;
                     case "right" -> x += speed;
                 }
@@ -192,100 +299,105 @@ public class Player extends Entity{
         }
         else{
             spriteNum = 3;
+            playerAction = IDLE;
         }
-
-        /*if(keyH.upPressed2){
-            player2Y -= playerSpeed;
-        }
-        else if(keyH.downPressed2){
-            player2Y += playerSpeed;
-        }
-        else if(keyH.leftPressed2){
-            player2X -= playerSpeed;
-        }
-        else if(keyH.rightPressed2){
-            player2X += playerSpeed;
-        }*/
     }
     public void draw(Graphics2D g2){
-        /*g2.setColor(Color.BLACK);
-        g2.fillRect(x,y, gp.tileSize, gp.tileSize);*/
-        BufferedImage image = null;
+//        BufferedImage image = null;
         switch (direction){
             case "up":
             case "falling":
-                if(wasFacingRight){image = right3;}
-                if(wasFacingLeft){image = left3;}
-//                if(spriteNum == 1){
-//                    image = left1;
-//                }
-//                if(spriteNum == 2){
-//                    image = left2;
-//                }
-//                if(spriteNum == 3){
-//                    image = left3; //left3 = stationary
-//                }
+               if(wasFacingRight){
+                   if(playerAction == RUNNING) {
+                       g2.drawImage(rightRunningAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                   }
+                   if(playerAction == IDLE){
+                       g2.drawImage(rightIdleAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
+                   }
+               }
+                if(wasFacingLeft){
+                    if(playerAction == RUNNING) {
+                        g2.drawImage(leftRunningAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                    }
+                    if(playerAction == IDLE){
+                        g2.drawImage(leftIdleAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
+                    }
+                }
+
                 break;
-//            case "down":
-//                if(spriteNum == 1){
-//                    image = right1;
-//                }
-//                if(spriteNum == 2){
-//                    image = right2;
-//                }
-//                if(spriteNum == 3){
-//                    image = right3; //right3 = stationary
-//                }
-//                break;
+//          case "down":
+
             case "left":
-                if(!keyH.attacking) {
-                    if (spriteNum == 1) {
-                        image = left1;
-                    }
-                    if (spriteNum == 2) {
-                        image = left2;
-                    }
-                    if (spriteNum == 3) {
-                        image = left3;
-                    } //left3 = stationary
+
+                if(playerAction == RUNNING){
+                    g2.drawImage(leftRunningAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
                 }
-                if(keyH.attacking && wasFacingLeft){
-                    if (spriteNum == 1) {
-                        image = basicLeft1;
-                    }
-                    if (spriteNum == 2) {
-                        image = basicLeft2;
-                    }
-                    if (spriteNum == 3) {
-                        image = basicLeft3;
-                    }
+                if(playerAction == IDLE){
+                    g2.drawImage(leftIdleAnimations[aniIndex], (int)x, (int)y, 160, 168, null);
                 }
+//                if(!keyH.attacking) {
+//                    if (spriteNum == 1) {
+//                        image = left1;
+//                    }
+//                    if (spriteNum == 2) {
+//                        image = left2;
+//                    }
+//                    if (spriteNum == 3) {
+//                        image = left3;
+//                    } //left3 = stationary
+//                }
+//                if(keyH.attacking && wasFacingLeft){
+//                    if (spriteNum == 1) {
+//                        image = basicLeft1;
+//                    }
+//                    if (spriteNum == 2) {
+//                        image = basicLeft2;
+//                    }
+//                    if (spriteNum == 3) {
+//                        image = basicLeft3;
+//                    }
+//                }
                 break;
             case "right":
                 if(!keyH.attacking) {
-                    if (spriteNum == 1) {
-                        image = right1;
+                    if (playerAction == RUNNING) {
+                        g2.drawImage(rightRunningAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
                     }
-                    if (spriteNum == 2) {
-                        image = right2;
-                    }
-                    if (spriteNum == 3) {
-                        image = right3;
-                    } //right3 = stationary
-                }
-                if(keyH.attacking){
-                    if (spriteNum == 1) {
-                        image = basicRight1;
-                    }
-                    if (spriteNum == 2) {
-                        image = basicRight2;
-                    }
-                    if (spriteNum == 3) {
-                        image = basicRight3;
+                    if (playerAction == IDLE) {
+                        g2.drawImage(rightIdleAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
                     }
                 }
+                else {
+                    if (playerAction == ULTI) {
+                        g2.drawImage(rightUltiAnimations[aniIndex], (int) x, (int) y, 160, 168, null);
+                        attacking = false;
+                    }
+                }
+
+//                if(!keyH.attacking) {
+//                    if (spriteNum == 1) {
+//                        image = right1;
+//                    }
+//                    if (spriteNum == 2) {
+//                        image = right2;
+//                    }
+//                    if (spriteNum == 3) {
+//                        image = right3;
+//                    } //right3 = stationary
+//                }
+//                if(keyH.attacking){
+//                    if (spriteNum == 1) {
+//                        image = basicRight1;
+//                    }
+//                    if (spriteNum == 2) {
+//                        image = basicRight2;
+//                    }
+//                    if (spriteNum == 3) {
+//                        image = basicRight3;
+//                    }
+//                }
                 break;
         }
-        g2.drawImage(image, (int)x, (int)y, gp.tileSize, gp.tileSize, null);
+//        g2.drawImage(image, (int)x, (int)y, gp.tileSize, gp.tileSize, null);
     }
 }

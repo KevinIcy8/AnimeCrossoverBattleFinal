@@ -3,12 +3,15 @@ package Test;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import static Test.Constants.Directions.*;
+
 public class KeyHandling implements KeyListener {
     GamePanel gp;
     public boolean upPressed, downPressed, leftPressed, rightPressed;
     public boolean upPressed2, downPressed2, leftPressed2, rightPressed2;
     //Attack Keys
-    public boolean jPressed;
+    public boolean basicPressed, specialPressed, ultiPressed;
+    public boolean basicPressed2, specialPressed2, ultiPressed2;
     public boolean attacking;
     public boolean spacePressed;
     public int jumpCounter;
@@ -127,13 +130,15 @@ public class KeyHandling implements KeyListener {
         if(gp.gameState == gp.singlePlayState || gp.gameState == gp.twoPlayState) {
             if (code == KeyEvent.VK_W) {
                 upPressed = true;
-                jumpCounter++;
+                //jumpCounter++;
             }
             if (code == KeyEvent.VK_S) {
                 downPressed = true;
+
             }
             if (code == KeyEvent.VK_A) {
                 leftPressed = true;
+
             }
             if (code == KeyEvent.VK_D) {
                 rightPressed = true;
@@ -153,8 +158,12 @@ public class KeyHandling implements KeyListener {
             if (code == KeyEvent.VK_SPACE) {
                 spacePressed = true;
             }
-            if (code == KeyEvent.VK_J) {
-                jPressed = true;
+            if (code == KeyEvent.VK_C) {
+                basicPressed = true;
+                attacking = true;
+            }
+            if (code == KeyEvent.VK_X) {
+                ultiPressed = true;
                 attacking = true;
             }
         }
@@ -192,8 +201,11 @@ public class KeyHandling implements KeyListener {
             spacePressed = false;
         }
         if(code == KeyEvent.VK_J){
-            jPressed = false;
+            basicPressed = false;
             attacking = false;
+        }
+        if (code == KeyEvent.VK_X) {
+            ultiPressed = false;
         }
 
 

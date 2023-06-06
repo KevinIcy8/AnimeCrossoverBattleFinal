@@ -4,9 +4,9 @@ import Entity.Characters;
 import Entity.Player;
 import Entity.PlayerTwo;
 import tile.TileManager;
-
 import javax.swing.*;
 import java.awt.*;
+
 
 public class GamePanel extends JPanel implements Runnable{
     final int origTileSize = 32;
@@ -16,6 +16,8 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxScreenRow = 6;
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
+
+
 
 
     //FPS
@@ -109,9 +111,10 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+
         if(gameState == titleState){
             ui.draw(g2);
-            player.draw(g2);
+            //player.draw(g2);
         }
         else if(gameState == singlePlayState){
             ui.draw(g2);
@@ -123,11 +126,11 @@ public class GamePanel extends JPanel implements Runnable{
             tileM.draw(g2);
             player.draw(g2);
             playerTwo.draw(g2);
-
         }
         else if(gameState == controlState){
             ui.draw(g2);
         }
         g2.dispose();
+
     }
 }

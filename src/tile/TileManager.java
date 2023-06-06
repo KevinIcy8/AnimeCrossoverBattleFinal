@@ -16,7 +16,7 @@ public class TileManager {
 
     public TileManager(GamePanel gp){
         this.gp = gp;
-        randomNum = (int) (Math.random()*9);
+        randomNum = (int) (Math.random()*10);
         tile = new Tile[10];
         background = new Tile[10];
         mapTileNum = new int [gp.maxScreenCol][gp.maxScreenRow];

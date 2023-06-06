@@ -34,6 +34,7 @@ UI {
         characterSelectedP2 = "";
         getTitleImages();
         getCharacterSelectionImages();
+
 //        try{
 //
 //        }
@@ -42,29 +43,29 @@ UI {
 //        }catch(){}
     }
 
-    public void draw(Graphics2D g2){
+    public void draw(Graphics2D g2) {
         this.g2 = g2;
         g2.setFont(maruMonica);
         g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         g2.setColor(Color.WHITE);
 
-        if(gp.gameState == gp.titleState){
+        if (gp.gameState == gp.titleState) {
             drawTitleScreen();
         }
-        if(gp.gameState == gp.singlePlayState){
+        if (gp.gameState == gp.singlePlayState) {
             drawSinglePlayerScreen();
         }
-        if(gp.gameState == gp.characterSelectionState){
+        if (gp.gameState == gp.characterSelectionState) {
             drawCharSelectionScreen();
-            if(!characterSelectedP1.equals("") && !characterSelectedP2.equals("")){
+            if (!characterSelectedP1.equals("") && !characterSelectedP2.equals("")) {
                 gp.gameState = gp.twoPlayState;
             }
         }
-        if(gp.gameState == gp.controlState){
+        if (gp.gameState == gp.controlState) {
             drawControlScreen();
         }
-
     }
+
     public void loadCharacterConfiguration(){
 
     }
@@ -100,14 +101,20 @@ UI {
         }
     }
 
-    public void drawTitleScreen(){
+
+
+
+
+    public void drawTitleScreen() {
         BufferedImage image = null;
         if(commandNum == 0){
             image = singlePlayerTitle;
             g2.drawImage(image,0,0, gp.screenWidth, gp.screenHeight,null);
             BufferedImage subImage;
-            subImage = narutoTestSpriteSheet.getSubimage(2*110, 0, 110, 110);
-            g2.drawImage(subImage, 0, 300, 256, 220, null);
+            //subImage = narutoTestSpriteSheet.getSubimage(2*110, 0, 110, 110);
+
+
+
         }
         else if(commandNum == 1){
             image = twoPlayerTitle;
@@ -193,13 +200,12 @@ UI {
         text = "P1";
         g2.drawString(text,10, 140);
 
-
         g2.setColor(Color.BLUE);
         g2.fillRect(gp.screenWidth-10-(gp.tileSize*2),150,gp.tileSize*2,gp.tileSize*3);//rectangle for where the character is display p2
         text = "P2";
         g2.drawString(text,gp.screenWidth-10-(gp.tileSize+50), 140);
 
-        System.out.println(characterSelectedP1);
+        //System.out.println(characterSelectedP1);
 
         if(characterSelectedP1.equals("dark_deku")){
             g2.drawImage(gp.player.right3, 30, 200, gp.tileSize*2, gp.tileSize*2, null);
