@@ -90,11 +90,11 @@ public class Player extends Entity{
             for (int i = 0; i < leftSpecialAnimations.length; i++) {
                 leftSpecialAnimations[i] = leftSpecialImg.getSubimage(i * 144, 0, 144, 110);
             }
-            BufferedImage rightSpecialImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_special.png")));
-            rightSpecialAnimations = new BufferedImage[3];
-            for (int i = 0; i < rightSpecialAnimations.length; i++) {
-                rightSpecialAnimations[i] = rightSpecialImg.getSubimage(i * 144, 0, 144, 110);
-            }
+//            BufferedImage rightSpecialImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_special.png")));
+//            rightSpecialAnimations = new BufferedImage[3];
+//            for (int i = 0; i < rightSpecialAnimations.length; i++) {
+//                rightSpecialAnimations[i] = rightSpecialImg.getSubimage(i * 144, 0, 144, 110);
+//            }
 
             BufferedImage leftUltiImg =  ImageIO.read(Objects.requireNonNull(getClass().getClassLoader().getResourceAsStream("player/naruto_ult-removebg-preview.png")));
             leftUltiAnimations = new BufferedImage[7];
